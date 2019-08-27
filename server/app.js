@@ -6,4 +6,4 @@ app.use('/', express.static('./dist', {
   index: "index.html"
 }));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`RevanJS app listening on port ${port}!`));
