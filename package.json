@@ -37,5 +37,13 @@
     "nodemon": "^1.19.1",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/JohnCFerguson/RevanJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JohnCFerguson/RevanJS/issues"
+  },
+  "homepage": "https://github.com/JohnCFerguson/RevanJS#readme"
 }
