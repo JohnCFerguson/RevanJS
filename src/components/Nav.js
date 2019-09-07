@@ -26,14 +26,15 @@ export default class Nav extends Component {
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <NavItem path="/" name="Home" />
-                            <NavItem path="/index" name="Index" />
-                            <NavItem path="/create" name="Create" />
-                            <NavItem path="/edit" name="Edit" />
-                        </ul>
+                        <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+                            <ul class="navbar-nav ml-auto flex-nowrap">
+                                <NavItem path="/" name="Dashboard" />
+                                <NavItem path="/index" name="Submit Feedback" />
+                                <NavItem path="/create" name="Create" />
+                                <NavItem path="/edit" name="Edit" />
+                            </ul>
+                        </div>
                     </div>
                 </nav>
                 <Switch>
