@@ -21,14 +21,14 @@ export default class Nav extends Component {
     render() {
         return (
             <Router>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a class="navbar-brand" href="#">RevanJS</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a className="navbar-brand" href="#">RevanJS</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
-                            <ul class="navbar-nav ml-auto flex-nowrap">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div className="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+                            <ul className="navbar-nav ml-auto flex-nowrap">
                                 <NavItem path="/" name="Dashboard" />
                                 <NavItem path="/index" name="Submit Feedback" />
                                 <NavItem path="/create" name="Create" />
