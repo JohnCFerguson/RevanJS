@@ -11,7 +11,7 @@ const NavItem = props => {
     const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";
     const aClassName = props.disabled ? "nav-link disabled" : "nav-link";
     return (
-      <li>
+      <li className={liClassName}>
           <NavLink exact to={props.path} className="nav-link">{props.name}</NavLink>
       </li>
     );
