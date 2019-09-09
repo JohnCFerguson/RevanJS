@@ -2,45 +2,70 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
 
-import CreateComponent from './CreateComponent';
 import EditComponent from './EditComponent';
 import IndexComponent from './IndexComponent';
+import DashboardComponent from './DashboardComponent';
+import SubmitComponent from './SubmitComponent';
+import img from '../static/revanNavBar.png';
 
 const NavItem = props => {
     const pageURI = window.location.pathname+window.location.search
     const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";
     const aClassName = props.disabled ? "nav-link disabled" : "nav-link";
     return (
-      <li className={liClassName}>
+      <li className="nav-item">
           <NavLink exact to={props.path} className="nav-link">{props.name}</NavLink>
       </li>
     );
 }
 
 export default class Nav extends Component {
+    constructor(props) {
+        super(props);
+        this.toggleNavBar = this.toggleNavBar.bind(this);
+        this.state= {
+            collapsed: true,
+        };
+    }
+    toggleNavBar() {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    }
     render() {
+        const collapsed = this.state.collapsed;
+        const divClassName = collapsed ? 'collapse navbar-collapse flex-grow-1 text-right' : 'collapse navbar-collapse show flex-grow-1 text-right';
+        const buttonClassName = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
         return (
             <Router>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a className="navbar-brand" href="#">RevanJS</a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <div className="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
-                            <ul className="navbar-nav ml-auto flex-nowrap">
-                                <NavItem path="/" name="Dashboard" />
-                                <NavItem path="/index" name="Submit Feedback" />
-                                <NavItem path="/create" name="Create" />
-                                <NavItem path="/edit" name="Edit" />
-                            </ul>
-                        </div>
+                    <div className="d-flex flex-grow-1">
+                        <a className="navbar-brand" href="#">
+                        <img src={img} class="d-inline-block align-top" alt="Revan NavBar"></img>
+                        RevanJS
+                        </a>
+                    </div>
+                    <div className="w-10 text-right">
+                        <button onClick={this.toggleNavBar} className={`${buttonClassName}`} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div className={`${divClassName}`} id="navbarSupportedContent">
+                        <ul className="navbar-nav ml-auto flex-nowrap">
+                            <NavItem path="/dashboard" name="Dashboard" />
+                            <NavItem path="/submit" name="Submit Feedback" />
+                            <NavItem path="/fortra" name="Feedback Submitted for TRA" />
+                            <NavItem path="/bymanager" name="Feedback Submitted by Manager" />
+                            <NavItem path="/bytra" name="Feedback Submitted by TRA" />
+                        </ul>
                     </div>
                 </nav>
                 <Switch>
-                    <Route exact path='/create' component={CreateComponent} />
-                    <Route path='/edit/:id' component={EditComponent} />
-                    <Route path='/index' component={IndexComponent} />
+                    <Route exact path='/dashboard' component={DashboardComponent} />
+                    <Route path='/submit' component={SubmitComponent} />
+                    <Route path='/fortra' component={EditComponent} />
+                    <Route path='/bymanager' component={IndexComponent} />
+                    <Route path='/bytra' component = {IndexComponent} />
                 </Switch>
             </Router>
         )

@@ -1,3 +1,29 @@
-.navbar {
-    background-color: #000000;
+#root nav.bg-dark {
+    background-color: #000000!important;
+}
+
+#root nav div a.navbar-brand {
+    font-size: 5rem!important;
+    color: 	#FF0000!important;
+}
+
+nav ul li {
+    width: 100%;
+}
+
+nav ul li a {
+    color: #ffffff!important;
+    white-space: nowrap;
+}
+
+nav ul li a.active {
+    background-color: #9400D3;
+    box-shadow: 120px 0px 20px 2px #9400D3;
+    color: #ffffff;
+    width: fit-content;
+    margin-left: auto;
+}
+
+.navbar-nav .nav-link {
+    padding-right: .5em;
 }

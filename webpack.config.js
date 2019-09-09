@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
 
 module.exports = {
     watch: false,
@@ -44,7 +45,19 @@ module.exports = {
                 }, {
                   loader: 'sass-loader' // compiles Sass to CSS
                 }]
-              }
+              },
+              {
+                rules: [
+                  {
+                    test: /\.(png|jpe?g|gif)$/i,
+                    use: [
+                      {
+                        loader: 'file-loader',
+                      },
+                    ],
+                  },
+                ],
+              },
         ]
     },
     devServer: {
@@ -55,6 +68,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        })
+        }),
+        new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      })
     ]
 };
