@@ -57,6 +57,12 @@ export default class Nav extends Component {
                             <NavItem path="/fortra" name="Feedback Submitted for TRA" />
                             <NavItem path="/bymanager" name="Feedback Submitted by Manager" />
                             <NavItem path="/bytra" name="Feedback Submitted by TRA" />
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username</a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </nav>

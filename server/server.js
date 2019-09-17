@@ -3,9 +3,20 @@ const path = require('path');
 const database_object = require('../dataAccess');
 const user_table = require('../user_repository');
 const feedback_table = require('../feedback_repository');
+const passport = require('passport');
+const session = require('express-session');
 
 const app = express();
 const port = 3000;
+
+app.use(session({
+  store: new RedisStore({
+    url: config.redisStore.url
+  }),
+  secret: config.redisStore.secret,
+  resave: false,
+  saveUninitialized: false
+}));
 
 const dataAccessObject = new database_object('./database.sqlite3');
 const users = new user_table(dataAccessObject);
