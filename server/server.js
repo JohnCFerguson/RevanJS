@@ -1,30 +1,31 @@
 const express = require('express');
 const path = require('path');
-const database_object = require('../dataAccess');
-const user_table = require('../user_repository');
-const feedback_table = require('../feedback_repository');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser')
 const passport = require('passport');
 const session = require('express-session');
 
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 
-app.use(session({
-  store: new RedisStore({
-    url: config.redisStore.url
-  }),
-  secret: config.redisStore.secret,
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
+app.use(bodyParser.json());
 
-const dataAccessObject = new database_object('./database.sqlite3');
-const users = new user_table(dataAccessObject);
-const feedback = new feedback_table(dataAccessObject);
+const db = require('../config/config').mongoURI;
 
-users.createTable();
-feedback.createTable();
+mongoose
+  .connect(
+    db,
+    { userNewUrlParser: true  }
+  ).then (() => console.log("DB successfully connected"))
+  .catch (err => console.log(err));
 
+app.use(passport.initialize);
+app.use(passport.session);
 
 app.use('/', express.static("./dist", {
   index: "index.html"
