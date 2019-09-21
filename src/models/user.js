@@ -19,7 +19,7 @@ const UserSchema = new Schema ({
         type: String,
         required: true
     },
-    supervisor_id: {
+    manager_id: {
         type: Number,
         required: false
     }
