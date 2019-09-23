@@ -93,4 +93,18 @@ router.post("/login", (req, res) => {
     });
   });
 
+// route GET api/users/userList
+// @desc get list of users from db
+// @access Public
+router.get("/userList", (req,res) => {
+  // Get all users from DB
+  User.find({}, (err, users) => {
+    // users.forEach(user => {
+    //   console.log(user);
+    // })
+    res.send(users);
+  });
+});
+
+
   module.exports = router;
