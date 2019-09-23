@@ -1,0 +1,37 @@
+nav.bg-dark {
+  background-color: #000000!important;
+  height: auto;
+}
+
+nav div a.navbar-brand {
+  font-size: 5rem!important;
+  color: 	rgb(255,0,0)!important;
+}
+
+nav ul li {
+  width: 100%;
+}
+
+nav ul li a {
+  color: #ffffff!important;
+  white-space: nowrap;
+}
+
+.dropdown-item {
+  color: rgb(0, 0, 0)!important
+}
+
+nav ul li a.active {
+  background-image: radial-gradient(rgba(255, 255, 255, 1) 5%, #9400D3);
+  background-color: #9400D3;
+  box-shadow: 0px 0px 20px 5px #9400D3;
+  width: fit-content;
+  margin-left: auto;
+  color: rgb(0, 0, 0)!important;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link {
+  padding-right: .5em;
+  padding-left: .5em;
+}

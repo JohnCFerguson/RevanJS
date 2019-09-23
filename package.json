@@ -1,67 +1,31 @@
 {
   "name": "revanjs",
   "version": "1.0.0",
-  "description": "Transparent feedback application for users",
+  "description": "Application used to track feedback submissions",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server.js",
-    "server": "npx nodemon server/server.js"
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "John Ferguson",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
-    "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
-    "bootstrap": "^4.3.1",
     "concurrently": "^4.1.2",
-    "css-loader": "^3.2.0",
-    "expres": "0.0.5",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
     "is-empty": "^1.2.0",
-    "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.1",
-    "npm": "^6.11.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "popper.js": "^1.15.0",
-    "react": "^16.9.0",
-    "react-bootstrap": "^1.0.0-beta.12",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
-    "reactstrap": "^8.0.1",
-    "redis": "^2.8.0",
-    "register-service-worker": "^1.6.2",
-    "sqlite3": "^4.1.0",
     "validator": "^11.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.6",
-    "fibers": "^4.0.1",
-    "file-loader": "^4.2.0",
-    "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.12.0",
-    "nodemon": "^1.19.2",
-    "sass": "^1.23.0-module.beta.1",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/JohnCFerguson/RevanJS.git"
-  },
-  "bugs": {
-    "url": "https://github.com/JohnCFerguson/RevanJS/issues"
-  },
-  "homepage": "https://github.com/JohnCFerguson/RevanJS#readme"
+    "nodemon": "^1.19.2"
+  }
 }
