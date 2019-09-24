@@ -11,7 +11,6 @@ export const getUsers = () => dispatch => {
     axios
         .get("/api/users/userList")
         .then(res => {
-            console.log(res.data)
             dispatch({
                 type: USER_LIST,
                 payload: res.data

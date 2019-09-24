@@ -19,15 +19,20 @@ router.post("/submit", (req, res) => {
     if (!isValid) {
       return res.status(400).json(errors);
     }
+    console.log(req.body);
     const feedback = new Feedback({
+        feedbackFor: req.body.feedbackFor,
         feedback: req.body.feedback
     });
+
+    console.log(feedback);
 
     feedback
         .save()
         .then(feedback => res.json(feedback))
         .catch(err => console.log(err));
 });
+
 
 //   // @route POST api/users/login
 // // @desc Login user and return JWT token

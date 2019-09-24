@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUsers } from "../../actions/userActions";
+import { submitFeedback } from "../../actions/feedbackActions";
+
 
 import Navbar from "../layout/Navbar";
 
@@ -14,13 +16,13 @@ class Submit extends Component {
             users: {},
             errors: {}
         };
-    }
+    };
 
     componentWillMount() {
         this.props.getUsers();
         this.setState({users: this.props.getUsers()});
-    }
-    
+    };
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
@@ -29,38 +31,83 @@ class Submit extends Component {
         }
     };
 
+    onChange = e => {
+        if(document.getElementById('blank')){
+            document.getElementById('blank').remove()
+        }
+
+        this.setState({ [e.target.id]: e.target.value });
+    };
+
+    onSubmit = e => {
+        e.preventDefault();
+
+        let feedbackForObj;
+
+        this.props.users.forEach(user => {
+            if(user._id === this.state.feedbackFor){
+                feedbackForObj = user;
+            }
+            else {
+                return null;
+            }
+        });
+
+        const newFeedback = {
+            feedbackFor: feedbackForObj,
+            feedback: this.state.feedback
+        };
+
+
+        this.props.submitFeedback(newFeedback, this.props.history);
+    };
+
     render() {
-        const { user } = this.props.auth;
-        const userSelectOptions = this.props.users.map(user => (
-            <option key={ user._id } value={ user }>{ user.name }</option>
-        ));
+        const userSelect = <select
+                                onChange={this.onChange}
+                                value={this.state.feedbackFor}
+                                id="feedbackFor"
+                                className="form-control">
+                                <option key="blank" id="blank" value=""></option>
+                                {
+                                                    this.props.users.map(user => {
+                                                        return <option key={ user._id } value={ user._id }>{ user.name }</option> })
+                                                }
+                            </select>
 
         return (
             <div>
                 <Navbar />
-                <div style={{height: "75vh" }} className="container valign-wrapper">
+                <div style={{height: "50vh" }} className="container valign-wrapper">
                     <div className="row">
                         <div className="col s12 center-align">
-                            <h2>Welcome { user.name }</h2>
-                            <form>
-                                <div className="row">
-                                    <div className="input-field col s12">
-                                        <label>Feedback for:
-                                            <br/>
-                                            <select className="form-control">
-                                                { userSelectOptions }
-                                            </select>
-                                        </label>
-                                    </div>
+                            <h2>Submit Feedback</h2>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="col s12 text-left userSelect">
+                                <label htmlFor="feedbackFor">Feedback for:</label>
+                                    { userSelect }
                                 </div>
                                 <br />
-                                <div>
-                                    <label>Feedback:</label>
+                                <div className="col l12 text-left feedback">
+                                    <label htmlFor="feedback">Feedback:</label>
                                     <br/>
-                                    <textarea id="feedback" className="materialize-textarea" name="feedback"></textarea>
+                                    <textarea 
+                                        id="feedback" 
+                                        className="materialize-textarea" 
+                                        name="feedback"
+                                        onChange={this.onChange}
+                                        value={this.state.feedback}
+                                    ></textarea>
                                 </div>
                                 <br/>
-                                <button type="submit">Submit Feedback</button>
+                                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                                    <button
+                                    type="submit"
+                                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                                    >
+                                    Submit Feedback
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -73,6 +120,7 @@ class Submit extends Component {
 Submit.propTypes = {
     getUsers: PropTypes.func.isRequired,
     users: PropTypes.array.isRequired,
+    submitFeedback: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 }
@@ -85,5 +133,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUsers }
+    { getUsers, submitFeedback }
 )(Submit);
