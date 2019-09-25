@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import {
-    NEW_FEEDBACK,
+    FEEDBACK_LIST,
     GET_ERRORS
 } from "./types";
 
@@ -9,17 +9,29 @@ import {
 export const submitFeedback = (feedbackData, history) => dispatch => {
     axios
         .post("/api/feedback/submit", feedbackData)
-        .then(
+        .then(res => history.push("/dashboard")) //redirects to login once successfully registered
+        .catch(err =>
             dispatch({
-                type: NEW_FEEDBACK,
-                feedbackFor: feedbackData.feedbackFor,
-                feedback: feedbackData.feedback
+                type: GET_ERRORS,
+                payload: err.response.data
             })
-        )
-        .then(
-            res => 
-                dispatch(
-                    history.push('/dashboard')
-                )
-            ); //redirects to login once successfully registered
+        );
+};
+
+export const getFeedback = (feedback) => dispatch => {
+    console.log(feedback);
+    axios
+        .post("/api/feedback/feedbackList", feedback)
+        .then(res => {
+            dispatch({
+                type: FEEDBACK_LIST,
+                payload: res.data
+            });
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response
+            })
+        );
 };

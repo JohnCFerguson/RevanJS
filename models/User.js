@@ -6,6 +6,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  manager: {
+    type: String,
+    required: false
+  },
   email: {
     type: String,
     required: true

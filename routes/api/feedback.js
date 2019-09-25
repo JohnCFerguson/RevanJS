@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/config");
 // Load input validation
 const validateFeedbackInput = require("../../validation/feedback");
+const validateFeedbackList = require("../../validation/feedbackList");
 
 // Load Feedback model
 const Feedback = require("../../models/feedback");
@@ -19,13 +20,16 @@ router.post("/submit", (req, res) => {
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    console.log(req.body);
-    const feedback = new Feedback({
-        feedbackFor: req.body.feedbackFor,
-        feedback: req.body.feedback
-    });
 
-    console.log(feedback);
+    const feedback = new Feedback({
+      feedbackFor: req.body.feedbackFor,
+      feedbackType: req.body.feedbackType,
+      feedback: req.body.feedback,
+      deliveredInPerson: req.body.deliveredInPerson,
+      relatedLink: req.body.relatedLink,
+      sentiment: req.body.sentiment,
+      deliveredBy: req.body.deliveredBy
+    });
 
     feedback
         .save()
@@ -33,55 +37,31 @@ router.post("/submit", (req, res) => {
         .catch(err => console.log(err));
 });
 
+// route GET api/feedback/feedbackList
+// @desc get list of feedback based on auth'd users choice
+// @access Public
+router.post("/feedbackList", (req,res) => {
+  // const { errors, isValid } = validateFeedbackList(req.body.feedbackFor);
 
-//   // @route POST api/users/login
-// // @desc Login user and return JWT token
-// // @access Public
-// router.post("/login", (req, res) => {
-//     // Form validation
-//   const { errors, isValid } = validateLoginInput(req.body);
-//   // Check validation
-//     if (!isValid) {
-//       return res.status(400).json(errors);
-//     }
-//   const email = req.body.email;
-//     const password = req.body.password;
-//   // Find user by email
-//     User.findOne({ email }).then(user => {
-//       // Check if user exists
-//       if (!user) {
-//         return res.status(404).json({ emailnotfound: "Email not found" });
-//       }
-//   // Check password
-//       bcrypt.compare(password, user.password).then(isMatch => {
-//         if (isMatch) {
-//           // User matched
-//           // Create JWT Payload
-//           const payload = {
-//             id: user.id,
-//             name: user.name
-//           };
-//   // Sign token
-//           jwt.sign(
-//             payload,
-//             keys.secretOrKey,
-//             {
-//               expiresIn: 31556926 // 1 year in seconds
-//             },
-//             (err, token) => {
-//               res.json({
-//                 success: true,
-//                 token: "Bearer " + token
-//               });
-//             }
-//           );
-//         } else {
-//           return res
-//             .status(400)
-//             .json({ passwordincorrect: "Password incorrect" });
-//         }
-//       });
-//     });
-//   });
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
 
-  module.exports = router;
+  const feedbackFor = req.body.feedbackFor._id;
+  const from = new Date(req.body.from);
+  const now = new Date(Date.now());
+  console.log(from)
+  console.log(now);
+
+  // Find feedback for user
+  Feedback.find({ feedbackFor: feedbackFor, timestamp: { $gte: from, $lte: now } }).then(feedback => {
+    // Check if user exists
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    console.log(feedback);
+    res.send(feedback);
+  });
+});
+
+module.exports = router;

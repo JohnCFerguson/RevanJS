@@ -4,8 +4,7 @@ import {
 } from "../actions/types";
 
 const initialStore = {
-    users: [],
-    user: {},
+    feedback: {},
     loading: false
 };
 
@@ -14,11 +13,13 @@ export default function (state = initialStore, action) {
         case NEW_FEEDBACK:
             return {
                 ...state,
-                feedbackFor: action.payload.feedbackFor,
-                feedback: action.payload.feedback
+                feedback: action.payload
             };
         case FEEDBACK_LIST:
-            return state
+            return {
+                ...state,
+                feedback: action.payload
+            }
         default:
             return state;
     }

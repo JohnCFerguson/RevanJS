@@ -13,7 +13,7 @@ export const registerUser = (userData, history) => dispatch => {
     axios
         .post("/api/users/register", userData)
         .then(res => history.push("/login")) //redirects to login once successfully registered
-        .catch(err => 
+        .catch(err =>
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
