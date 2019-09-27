@@ -13,9 +13,9 @@ module.exports = function validateFeedbackInput(data) {
   data.deliveredBy = !isEmpty(data.deliveredBy) ? data.deliveredBy : "";
 
 // feedbackFor checks
-  if (data.feedbackFor === "") {
-    errors.feedbackFor = "feedback for field is required" ;
-  }
+  // if (data.feedbackFor === "") {
+  //   errors.feedbackFor = "feedback for field is required" ;
+  // }
 // feedbackType checks
   if (Validator.isEmpty(data.feedbackType)) {
     errors.feedbackType = "feedback type field is required";
@@ -37,9 +37,9 @@ module.exports = function validateFeedbackInput(data) {
     errors.sentiment = "sentiment field is required";
   }
 // feedback checks
-  if (data.deliveredBy === "") {
-    errors.deliveredBy = "Delivered By field is required";
-  }
+  // if (data.deliveredBy === "") {
+  //   errors.deliveredBy = "Delivered By field is required";
+  // }
 
   return {
     errors,

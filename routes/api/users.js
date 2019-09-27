@@ -106,5 +106,16 @@ router.get("/userList", (req,res) => {
   });
 });
 
+// route GET api/users/managerList
+// @desc get list of managers from db
+// @access Public
+router.get("/managerList", (req,res) => {
+  // Get all managers from DB
+  User.find({isManager: true}, (err, managers) => {
+    res.send(managers);
+  });
+});
+
+
 
 module.exports = router;

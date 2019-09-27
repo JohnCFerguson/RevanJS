@@ -5,7 +5,7 @@ import { getUsers } from "../../actions/userActions";
 import { submitFeedback } from "../../actions/feedbackActions";
 
 
-import Navbar from "../layout/Navbar";
+import Navbar from "./Navbar";
 
 class Submit extends Component {
     constructor(props) {
@@ -50,12 +50,20 @@ class Submit extends Component {
 
         this.props.users.forEach(user => {
             if(user._id === this.state.feedbackFor){
-                feedbackForObj = user;
+                feedbackForObj = {
+                    id: user._id,
+                    name: user.name
+                };
             }
             else {
                 return null;
             }
-        });
+        })
+
+        const deliveredByObj = {
+            id: this.props.auth.user.id,
+            name: this.props.auth.user.name
+        }
 
         const newFeedback = {
             feedbackFor: feedbackForObj,
@@ -64,8 +72,9 @@ class Submit extends Component {
             deliveredInPerson: this.state.deliveredInPerson,
             relatedLink: this.state.relatedLink,
             sentiment: this.state.sentiment,
-            deliveredBy: this.props.auth.user
+            deliveredBy: deliveredByObj
         };
+
 
         this.props.submitFeedback(newFeedback, this.props.history);
     };
@@ -215,7 +224,7 @@ Submit.propTypes = {
     users: PropTypes.array.isRequired,
     submitFeedback: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.string.isRequired
+    errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

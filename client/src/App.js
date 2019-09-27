@@ -12,11 +12,11 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login"
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard";
-import Submit from "./components/submit/Submit";
-import ForTra from "./components/fortra/ForTra";
-import ByManager from './components/bymanager/ByManager';
-import ByTra from "./components/bytra/ByTra";
+import Dashboard from "./components/layout/Dashboard";
+import Submit from "./components/layout/Submit";
+import ForTra from "./components/layout/ForTra";
+import ByManager from './components/layout/ByManager';
+import ByTra from "./components/layout/ByTra";
 
 
 // Check if token for u ser login
@@ -52,8 +52,8 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={ Dashboard } />
               <PrivateRoute exact path="/submit" component={ Submit } />
-              <PrivateRoute exact path="/submittedfortra" component={ ForTra } />
-              <PrivateRoute exact path="/submittedbymanager" component={ ByManager } />
+              <PrivateRoute exact path="/submittedfor" component={ ForTra } />
+              <PrivateRoute exact path="/bymanager" component={ ByManager } />
               <PrivateRoute exact path="/submittedbytra" component={ ByTra } />
             </Switch>
           </div>

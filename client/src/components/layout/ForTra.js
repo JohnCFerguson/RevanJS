@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUsers } from "../../actions/userActions";
-import { getFeedbackBy } from "../../actions/feedbackActions";
+import { getFeedbackForTra } from "../../actions/feedbackActions";
 
 
-import Navbar from "../layout/Navbar";
+import Navbar from "./Navbar";
 
-
-class ByTRA extends Component {
+class ForTRA extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +21,7 @@ class ByTRA extends Component {
 
     componentWillMount() {
         this.setState({users: this.props.getUsers()});
+        console.log(this.state)
     };
 
     componentWillReceiveProps(nextProps) {
@@ -29,17 +30,17 @@ class ByTRA extends Component {
                 errors: nextProps.errors
             });
         }
-        if (nextProps.feedback !== undefined) {
+        if (nextProps.feedback !== this.props.feedback && nextProps.feedback !== undefined) {
             this.setState({
                 feedback: nextProps.feedback.feedback
             });
         }
     };
 
-    componentDidUpdate() {
-        console.log('State has changed...');
-        console.log(this.state);
-    }
+    // componentDidUpdate() {
+    //     console.log('State has changed...');
+    //     console.log(this.state);
+    // }
 
     onChange = e => {
         if(document.getElementById('blank')){
@@ -56,19 +57,23 @@ class ByTRA extends Component {
 
         this.props.users.forEach(user => {
             if(user._id === this.state.feedbackFor){
-                feedbackForObj = user;
+                feedbackForObj = {
+                    id: user._id,
+                    name: user.name
+                };
             }
             else {
                 return null;
             }
-        });
+        })
+
 
         const feedback = {
             feedbackFor: feedbackForObj,
             from: this.state.dateFrom
         }
 
-        this.props.getFeedbackBy(feedback);
+        this.props.getFeedbackForTra(feedback);
     };
 
     render() {
@@ -87,23 +92,19 @@ class ByTRA extends Component {
                             </select>;
         let feedbackShow;
         if(feedback.length > 0){
-            feedbackShow = <div>this is feedback: {feedback[0].feedbackFor.name}</div>
-            feedbackShow =
-                feedback.map(item => {
-                    return  <div key={item._id} className="row">
+            feedbackShow = feedback.map(item => {
+                return <div key={item._id} className="row">
                         <div className="col">
                             <div className="card">
                                 <div className="card-content">
-                                    <h6>Feedback From: <b>{ item.deliveredBy.name }</b></h6>
+                                    <h6>Feedback delivered by: <b>{ item.deliveredBy.name }</b></h6>
                                     <h6>Feedback for: <b>{ item.feedbackType }</b></h6>
                                     <h6>Feedback Sentiment: <b>{ item.sentiment }</b></h6>
                                     <h6>Feedback:</h6>
                                     <p>{ item.feedback }</p>
                                     <h6>Delivered in Person: <b>{ item.deliveredInPerson }</b></h6>
-                                    <div className="card-action">
-                                        <h6>Related Link:</h6>
-                                        <a href={item.relatedLink}>{ item.relatedLink }</a>
-                                    </div>
+                                    <h6>Related Link:</h6>
+                                    <NavLink to={item.relatedLink}>{ item.relatedLink }</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +112,7 @@ class ByTRA extends Component {
                 });
         }
         else {
-            feedbackShow = <div>feedback is type: {feedback.length}</div>
+            feedbackShow = <div></div>
          }
 
 
@@ -124,7 +125,7 @@ class ByTRA extends Component {
                             <h2>View Feedback For:</h2>
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="col text-left userSelect">
-                                    <label htmlFor="feedbackFor">View Feedback by:
+                                    <label htmlFor="feedbackFor">View Feedback for:
                                         { userSelect }
                                     </label>
                                 </div>
@@ -160,10 +161,10 @@ class ByTRA extends Component {
     }
 }
 
-ByTRA.propTypes = {
+ForTRA.propTypes = {
     getUsers: PropTypes.func.isRequired,
     users: PropTypes.array.isRequired,
-    getFeedbackBy: PropTypes.func.isRequired,
+    getFeedbackForTra: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     feedback: PropTypes.object,
     errors: PropTypes.object.isRequired
@@ -178,5 +179,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getUsers, getFeedbackBy }
-)(ByTRA);
+    { getUsers, getFeedbackForTra }
+)(ForTRA);

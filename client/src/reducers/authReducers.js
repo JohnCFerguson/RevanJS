@@ -5,13 +5,13 @@ import {
 
 const isEmpty = require("is-empty");
 
-const initialStore = {
+const initialState = {
     isAuthenticated: false,
     user: {},
     loading: false
 };
 
-export default function (state = initialStore, action) {
+export default function (state = initialState, action) {
     switch (action.type) {
         case SET_CURRENT_USER:
             return {

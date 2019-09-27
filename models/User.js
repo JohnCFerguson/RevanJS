@@ -8,7 +8,11 @@ const UserSchema = new Schema({
   },
   manager: {
     type: String,
-    required: false
+    required: true
+  },
+  isManger:  {
+    type: Boolean,
+    required: true
   },
   email: {
     type: String,

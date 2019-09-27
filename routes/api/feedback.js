@@ -59,16 +59,19 @@ router.post("/feedbackListFor", (req,res) => {
 // @desc get list of feedback based on auth'd users choice
 // @access Public
 router.post("/feedbackListBy", (req,res) => {
-  const deliveredBy = req.body.feedbackFor;
+  const deliveredBy = req.body.deliveredBy
   const from = new Date(req.body.from);
   const now = new Date(Date.now());
 
+  console.log(deliveredBy)
+
   // Find feedback for user
-  Feedback.find({ deliveredBy: feedbackFor, timestamp: { $gt: from } }).then(feedback => {
+  Feedback.find({ deliveredBy: deliveredBy, timestamp: { $gt: from } }).then(feedback => {
     // Check if user exists
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
+    console.log(feedback);
     res.send(feedback);
   });
 });
@@ -87,6 +90,7 @@ router.post("/feedbackListByManager", (req,res) => {
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
+    console.log(feedback)
     res.send(feedback);
   });
 });
