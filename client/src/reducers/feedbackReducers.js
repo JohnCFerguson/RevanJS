@@ -3,14 +3,15 @@ import {
     FEEDBACK_LIST
 } from "../actions/types";
 
-const initialStore = {
-    feedback: {},
+const initialState = {
+    feedback: [],
     loading: false
 };
 
-export default function (state = initialStore, action) {
+export default function (state = initialState, action) {
     switch (action.type) {
         case NEW_FEEDBACK:
+
             return {
                 ...state,
                 feedback: action.payload

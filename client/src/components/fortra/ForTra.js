@@ -2,22 +2,24 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUsers } from "../../actions/userActions";
-import { getFeedback } from "../../actions/feedbackActions";
+import { getFeedbackForTra } from "../../actions/feedbackActions";
 
 
 import Navbar from "../layout/Navbar";
 
-class Submit extends Component {
+
+class ForTRA extends Component {
     constructor(props) {
         super(props);
         this.state = {
             feedbackFor: "",
-            dateFrom: Date.now
+            users: {},
+            dateFrom: Date.now,
+            feedback:[]
         };
     };
 
     componentWillMount() {
-        this.props.getUsers();
         this.setState({users: this.props.getUsers()});
     };
 
@@ -27,7 +29,17 @@ class Submit extends Component {
                 errors: nextProps.errors
             });
         }
+        if (nextProps.feedback !== undefined) {
+            this.setState({
+                feedback: nextProps.feedback.feedback
+            });
+        }
     };
+
+    componentDidUpdate() {
+        console.log('State has changed...');
+        console.log(this.state);
+    }
 
     onChange = e => {
         if(document.getElementById('blank')){
@@ -56,12 +68,11 @@ class Submit extends Component {
             from: this.state.dateFrom
         }
 
-        console.log(feedback);
-
-        this.props.getFeedback(feedback)
+        this.props.getFeedbackForTra(feedback);
     };
 
     render() {
+        const feedback = this.state.feedback;
         const userSelect = <select
                                 onChange={this.onChange}
                                 value={this.state.feedbackFor}
@@ -73,7 +84,36 @@ class Submit extends Component {
                                     this.props.users.map(user => {
                                         return <option key={ user._id } value={ user._id }>{ user.name }</option> })
                                 }
-                            </select>
+                            </select>;
+        let feedbackShow;
+        if(feedback.length > 0){
+            feedbackShow = <div>this is feedback: {feedback[0].feedbackFor.name}</div>
+            feedbackShow =
+                feedback.map(item => {
+                    return  <div key={item._id} className="row">
+                        <div className="col">
+                            <div className="card">
+                                <div className="card-content">
+                                    <h6>Feedback From: <b>{ item.deliveredBy.name }</b></h6>
+                                    <h6>Feedback for: <b>{ item.feedbackType }</b></h6>
+                                    <h6>Feedback Sentiment: <b>{ item.sentiment }</b></h6>
+                                    <h6>Feedback:</h6>
+                                    <p>{ item.feedback }</p>
+                                    <h6>Delivered in Person: <b>{ item.deliveredInPerson }</b></h6>
+                                    <div className="card-action">
+                                        <h6>Related Link:</h6>
+                                        <a href={item.relatedLink}>{ item.relatedLink }</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                });
+        }
+        else {
+            feedbackShow = <div>feedback is type: {feedback.length}</div>
+         }
+
 
         return (
             <div>
@@ -81,7 +121,7 @@ class Submit extends Component {
                 <div style={{height: "50vh" }} className="container">
                     <div className="row">
                         <div className="center-align">
-                            <h2>Submit Feedback</h2>
+                            <h2>View Feedback For:</h2>
                             <form noValidate onSubmit={this.onSubmit}>
                                 <div className="col text-left userSelect">
                                     <label htmlFor="feedbackFor">View Feedback for:
@@ -93,8 +133,7 @@ class Submit extends Component {
                                     <input
                                         id="dateFrom"
                                         type="date"
-                                        class="datepicker"
-                                        value={this.state.dateFrom}
+                                        className="datepicker"
                                         onChange={this.onChange}
                                     />
                                     </label>
@@ -110,27 +149,34 @@ class Submit extends Component {
                             </form>
                         </div>
                     </div>
+                <div className="row">
+                    <div className="center-align text-left">
+                        { feedbackShow }
+                    </div>
+                </div>
                 </div>
             </div>
         );
     }
 }
 
-Submit.propTypes = {
+ForTRA.propTypes = {
     getUsers: PropTypes.func.isRequired,
     users: PropTypes.array.isRequired,
-    getFeedback: PropTypes.func.isRequired,
+    getFeedbackForTra: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    feedback: PropTypes.object,
     errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     users: state.users.users,
     auth: state.auth,
+    feedback: state.feedback,
     errors: state.errors
 });
 
 export default connect(
     mapStateToProps,
-    { getUsers, getFeedback }
-)(Submit);
+    { getUsers, getFeedbackForTra }
+)(ForTRA);

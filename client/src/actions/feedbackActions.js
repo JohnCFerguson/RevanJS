@@ -18,20 +18,41 @@ export const submitFeedback = (feedbackData, history) => dispatch => {
         );
 };
 
-export const getFeedback = (feedback) => dispatch => {
-    console.log(feedback);
+// get feedback for user (tra or manager)
+export const getFeedbackForTra = (feedbackFor) => dispatch => {
     axios
-        .post("/api/feedback/feedbackList", feedback)
+        .post("/api/feedback/feedbackList", feedbackFor)
         .then(res => {
-            dispatch({
-                type: FEEDBACK_LIST,
-                payload: res.data
-            });
+            dispatch(setUserFeedback(res.data));
         })
         .catch(err =>
             dispatch({
                 type: GET_ERRORS,
-                payload: err.response
+                payload: err
             })
         );
+};
+
+// get feedback by tra or manager
+export const getFeedbackBy = (feedbackBy) => dispatch => {
+    axios
+        .post("/api/feedback/feedbackListFor", feedbackBy)
+        .then(res => {
+            dispatch(setUserFeedback(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
+
+// set feedback for user
+export const setUserFeedback = feedback => {
+    return {
+        type: FEEDBACK_LIST,
+        payload: feedback
+    };
 };
