@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  isManger:  {
+  isManager:  {
     type: Boolean,
     required: true
   },

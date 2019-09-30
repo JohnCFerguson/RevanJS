@@ -19,7 +19,7 @@ import ByManager from './components/layout/ByManager';
 import ByTra from "./components/layout/ByTra";
 
 
-// Check if token for u ser login
+// Check if token for user login
 if (localStorage.jwtToken) {
   // set auth token header ath
   const token = localStorage.jwtToken;

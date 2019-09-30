@@ -1,6 +1,7 @@
 import {
     NEW_FEEDBACK,
-    FEEDBACK_LIST
+    FEEDBACK_LIST,
+    FEEDBACK_COUNT
 } from "../actions/types";
 
 const initialState = {
@@ -17,6 +18,12 @@ export default function (state = initialState, action) {
                 feedback: action.payload
             };
         case FEEDBACK_LIST:
+            return {
+                ...state,
+                feedback: action.payload
+            }
+        case FEEDBACK_COUNT:
+            console.log('Feedback Count', action.payload)
             return {
                 ...state,
                 feedback: action.payload

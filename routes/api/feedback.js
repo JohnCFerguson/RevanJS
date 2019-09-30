@@ -63,15 +63,12 @@ router.post("/feedbackListBy", (req,res) => {
   const from = new Date(req.body.from);
   const now = new Date(Date.now());
 
-  console.log(deliveredBy)
-
   // Find feedback for user
   Feedback.find({ deliveredBy: deliveredBy, timestamp: { $gt: from } }).then(feedback => {
     // Check if user exists
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
-    console.log(feedback);
     res.send(feedback);
   });
 });
@@ -80,19 +77,60 @@ router.post("/feedbackListBy", (req,res) => {
 // @desc get list of feedback based on auth'd users choice
 // @access Public
 router.post("/feedbackListByManager", (req,res) => {
+  console.log(req.body)
   const manager = req.body.feedbackFor;
   const from = new Date(req.body.from);
   const now = new Date(Date.now());
 
   // Find feedback for user
-  Feedback.find({ manager: manager, timestamp: { $gt: from } }).then(feedback => {
-    // Check if user exists
+  Feedback.find({ 'feedbackFor.manager': manager.id, timestamp: { $gt: from } }).then(feedback => {
+    // Check if feedback exists
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
-    console.log(feedback)
     res.send(feedback);
   });
 });
+
+// route GET api/feedback/feedbackCount
+// @desc get list of feedback based on auth'd users choice
+// @access Public
+router.get("/feedbackForCount", (req,res) => {
+
+//Get count of feedback submitted by a user
+  Feedback.aggregate([
+    {
+      $group: {
+        _id: "$feedbackFor",
+        total: {$sum: 1}
+      }
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    res.send(feedback);
+  })
+})
+
+// route GET api/feedback/feedbackCount
+// @desc get count of all feedback
+// @access Public
+router.get("/feedbackCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+    Feedback.aggregate([
+      {
+        $count: 'Total Feedback Submitted'
+      }
+    ]).then(feedback => {
+      if (!feedback) {
+        return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+      }
+      console.log(feedback);
+      res.send(feedback);
+    })
+  })
+
 
 module.exports = router;

@@ -3,18 +3,26 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
+import { getManagers } from "../../actions/userActions"
 import classnames from "classnames";
 
 class Register extends Component {
     constructor() {
         super();
         this.state = {
+            managers: [],
+            manager: "",
+            isManager: false,
             name: "",
             email: "",
             password: "",
             password2: "",
             errors: {}
         };
+    }
+
+    componentWillMount() {
+        this.setState({managers: this.props.getManagers()})
     }
 
     componentDidMount() {
@@ -24,7 +32,7 @@ class Register extends Component {
         }
     };
 
-    componentWillReceiveProps(nextProps) {
+    getDerivedStateFromProps (nextProps) {
         if (nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
@@ -33,15 +41,35 @@ class Register extends Component {
     };
 
     onChange = e => {
-        this.setState({ [e.target.id]: e.target.value });
+        const target = e.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const id = target.id;
+        console.log(id + " === " + value)
+        this.setState({ [id]: value });
     };
 
     onSubmit = e => {
         e.preventDefault();
 
+        let managerObj;
+
+        this.props.managers.forEach(user => {
+            console.log(this.state.manager)
+            if(user._id === this.state.manager){
+                console.log(user._id + " === " + this.state.managers)
+                managerObj = user._id
+            }
+            else {
+                managerObj = 'N/A'
+            }
+            console.log(managerObj)
+        });
+
         const newUser = {
             name: this.state.name,
             email: this.state.email,
+            manager: managerObj,
+            isManager: this.state.isManager,
             password: this.state.password,
             password2: this.state.password2
         };
@@ -53,6 +81,18 @@ class Register extends Component {
 
     render() {
         const { errors } = this.state;
+        const managerSelect = <select
+                                onChange={this.onChange}
+                                value={this.state.manager}
+                                id="manager"
+                                className="form-control input-field"
+                            >
+                                <option key="blank" id="blank" value=""></option> 
+                                {
+                                    this.props.managers.map(user => {
+                                        return <option key={ user._id } value={ user._id }>{ user.name }</option> })
+                                }
+                            </select>;
 
         return (
             <div className="container">
@@ -69,7 +109,7 @@ class Register extends Component {
                         </div>
                         <form noValidate onSubmit={this.onSubmit}>
                             <div className="input-field col s12">
-                                <input 
+                                <input
                                     onChange={this.onChange}
                                     value={this.state.name}
                                     error={errors.name}
@@ -95,6 +135,22 @@ class Register extends Component {
                                 />
                                 <label htmlFor="email">Email</label>
                                 <span className="red-text">{errors.email}</span>
+                            </div>
+                            <div className="col s12">
+                                <label htmlFor="manager">Manager
+                                    { managerSelect }
+                                </label>
+                            </div>
+                            <div>
+                                <label htmlFor="isManager" className="form-check-label">Is this a Manager?</label>
+                                <input
+                                    id="isManager"
+                                    type="checkbox"
+                                    className=""
+                                    value={this.state.isManager}
+                                    checked={this.state.isManager}
+                                    onChange={this.onChange}
+                                />
                             </div>
                             <div className="input-field col s12">
                                 <input
@@ -148,16 +204,18 @@ class Register extends Component {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
+    getManagers: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
+    managers: state.managers.managers,
     auth: state.auth,
     errors: state.errors
 });
 
 export default connect(
     mapStateToProps,
-    { registerUser }
+    { registerUser, getManagers }
 )(withRouter(Register));

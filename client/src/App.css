@@ -35,3 +35,15 @@ nav ul li a.active {
   padding-right: .5em;
   padding-left: .5em;
 }
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  opacity: 1;
+  margin-top: .5rem;
+  margin-left: .5rem;
+  pointer-events: all;
+}
+
+.form-check-label {
+  margin-left: .75rem;
+}

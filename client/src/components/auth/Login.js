@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
@@ -36,15 +36,16 @@ class Login extends Component {
     }
 
     onChange = e => {
-        this.setState({ [e.target.id]: e.target.value });
+        //console.log("id: " + e.target.id + " value: " +e.target.value);
+        this.setState({ [e.target.id]: e.target.value }, () => {console.log(this.state)});
     };
     onSubmit = e => {
         e.preventDefault();
-    const userData = {
-        email: this.state.email,
-        password: this.state.password
-        };
-    this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+        const userData = {
+            email: this.state.email,
+            password: this.state.password
+            };
+        this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
     };
     render() {
         const { errors } = this.state;
@@ -72,6 +73,7 @@ class Login extends Component {
                             error={errors.email}
                             id="email"
                             type="email"
+                            name="email"
                             className={classnames("", {
                                 invalid: errors.email || errors.emailnotfound
                             })}
@@ -89,6 +91,7 @@ class Login extends Component {
                             error={errors.password}
                             id="password"
                             type="password"
+                            name="password"
                             className={classnames("", {
                                 invalid: errors.password || errors.passwordincorrect
                             })}

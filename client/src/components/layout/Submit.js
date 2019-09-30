@@ -52,7 +52,8 @@ class Submit extends Component {
             if(user._id === this.state.feedbackFor){
                 feedbackForObj = {
                     id: user._id,
-                    name: user.name
+                    name: user.name,
+                    manager: user.manager
                 };
             }
             else {
@@ -62,7 +63,8 @@ class Submit extends Component {
 
         const deliveredByObj = {
             id: this.props.auth.user.id,
-            name: this.props.auth.user.name
+            name: this.props.auth.user.name,
+            manager: this.props.auth.user.manager
         }
 
         const newFeedback = {
@@ -80,6 +82,7 @@ class Submit extends Component {
     };
 
     render() {
+        const { errors, feedbackFor, feedback, deliveredInPerson, sentiment, relatedLink  } = this.state
         const userSelect = <select
                                 onChange={this.onChange}
                                 value={this.state.feedbackFor}
@@ -92,6 +95,8 @@ class Submit extends Component {
                                         return <option key={ user._id } value={ user._id }>{ user.name }</option> })
                                 }
                             </select>
+        const submitEnabled = feedbackFor.length > 0 && feedback.length > 0 && feedback !==" " && deliveredInPerson.length > 0 && sentiment.length > 0 && relatedLink.length > 0;
+
 
         return (
             <div>
@@ -115,6 +120,7 @@ class Submit extends Component {
                                                 onChange={this.onChange}
                                                 value={this.state.feedbackType}
                                                 id="feedbackType"
+                                                error={errors.feedbackFor}
                                                 className="form-control input-field"
                                             >
                                                 <option key="cms">CMS Post</option>
@@ -131,6 +137,7 @@ class Submit extends Component {
                                             <input
                                                 id="deliveredInPerson"
                                                 value="Yes"
+                                                error={errors.deliveredInPerson}
                                                 checked={this.state.deliveredInPerson === "Yes"}
                                                 onChange={this.onChange}
                                                 type="radio"
@@ -144,6 +151,7 @@ class Submit extends Component {
                                             <input
                                                 id="deliveredInPerson"
                                                 value="No"
+                                                error={errors.deliveredInPerson}
                                                 checked={this.state.deliveredInPerson === "No"}
                                                 onChange={this.onChange}
                                                 type="radio"
@@ -161,6 +169,7 @@ class Submit extends Component {
                                         name="relatedLink"
                                         onChange={this.onChange}
                                         value={this.state.relatedLink}
+                                        error={errors.feedbackLink}
                                     ></textarea>
                                 </div>
                                 <div className="float-left">
@@ -170,6 +179,7 @@ class Submit extends Component {
                                             <input
                                                 id="sentiment"
                                                 value="Positive"
+                                                error={errors.sentiment}
                                                 checked={this.state.sentiment === "Positive"}
                                                 onChange={this.onChange}
                                                 type="radio"
@@ -183,6 +193,7 @@ class Submit extends Component {
                                             <input
                                                 id="sentiment"
                                                 value="Constructive"
+                                                error={errors.sentiment}
                                                 checked={this.state.sentiment === "Constructive"}
                                                 onChange={this.onChange}
                                                 type="radio"
@@ -200,12 +211,14 @@ class Submit extends Component {
                                         name="feedback"
                                         onChange={this.onChange}
                                         value={this.state.feedback}
+                                        error={errors.feedback}
                                     ></textarea>
                                 </div>
                                 <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                                     <button
-                                    type="submit"
-                                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                                        type="submit"
+                                        className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                                        disabled={!submitEnabled}
                                     >
                                     Submit Feedback
                                     </button>

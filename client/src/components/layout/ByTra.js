@@ -14,15 +14,20 @@ class ByTRA extends Component {
         this.state = {
             deliveredBy: "",
             users: {},
-            dateFrom: Date.now,
+            dateFrom: Date(),
             feedback:[]
         };
     };
 
     componentDidMount() {
-        this.setState({users: this.props.getUsers()});
-        console.log(this.state);
-        this.setState({feedback: []})
+        const date = new Date();
+        date.setDate(date.getDate() - 7)
+
+        this.setState({
+            users: this.props.getUsers(),
+            dateFrom: date,
+            feedback: []
+        }, () => {console.log("state: ", this.state)});
     };
 
     componentWillReceiveProps(nextProps) {
@@ -76,7 +81,7 @@ class ByTRA extends Component {
     };
 
     render() {
-        const feedback = this.state.feedback;
+        const { feedback, deliveredBy} = this.state;
         const userSelect = <select
                                 onChange={this.onChange}
                                 value={this.state.feedbackFor}
@@ -110,10 +115,8 @@ class ByTRA extends Component {
                     </div>
                 });
         }
-        else {
-            feedbackShow = <div>feedback is type: {feedback.length}</div>
-            }
 
+        const submitEnabled = deliveredBy.length > 0;
 
         return (
             <div>
@@ -130,6 +133,8 @@ class ByTRA extends Component {
                                 </div>
                                 <div className="col text-left">
                                     <label htmlFor="feedbackType">Feedback from date:
+                                    <br />
+                                    <sub>Date defaults to 1 week ago</sub>
                                     <input
                                         id="dateFrom"
                                         type="date"
@@ -142,6 +147,7 @@ class ByTRA extends Component {
                                     <button
                                     type="submit"
                                     className="btn btn waves-effect waves-light hoverable blue accent-3"
+                                    disabled={!submitEnabled}
                                     >
                                     Search for Feedback
                                     </button>

@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {
     FEEDBACK_LIST,
+    FEEDBACK_COUNT,
     GET_ERRORS
 } from "./types";
 
@@ -64,6 +65,21 @@ export const getFeedbackByManager = (manager) => dispatch => {
         );
 };
 
+// get feedback count
+export const getFeedbackCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackCount")
+        .then(res => {
+            dispatch(feedbackCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
 
 // set feedback for user
 export const setUserFeedback = feedback => {
@@ -81,3 +97,11 @@ export const setTeamFeedback = feedback => {
         payload: feedback
     };
 };
+
+// get feedback count
+export const feedbackCount = feedback => {
+    return {
+        type: FEEDBACK_COUNT,
+        payload: feedback
+    }
+}

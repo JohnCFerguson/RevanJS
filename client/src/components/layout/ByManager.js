@@ -14,17 +14,24 @@ class ByManager extends Component {
         this.state = {
             feedbackFor: "",
             users: {},
-            dateFrom: Date.now,
+            managers: {},
+            dateFrom: Date(),
             feedback:[]
         };
     };
 
     componentWillMount() {
-        this.setState({users: this.props.getManagers()});
-        console.log(this.state)
+        const date = new Date();
+        date.setDate(date.getDate() - 7)
+
+        this.setState({
+            managers: this.props.getManagers(),
+            dateFrom: date
+        });
     };
 
     componentWillReceiveProps(nextProps) {
+        // console.log("props: ",  nextProps)
         if (nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
@@ -35,14 +42,12 @@ class ByManager extends Component {
                 feedback: nextProps.feedback.feedback
             });
         }
-
-        console.log(this.state)
     };
 
-    // componentDidUpdate() {
-    //     console.log('State has changed...');
-    //     console.log(this.state);
-    // }
+    componentDidUpdate() {
+        // console.log('State has changed...');
+        // console.log(this.state);
+    }
 
     onChange = e => {
         if(document.getElementById('blank')){
@@ -57,7 +62,7 @@ class ByManager extends Component {
 
         let feedbackForObj;
 
-        this.props.users.forEach(user => {
+        this.props.managers.forEach(user => {
             if(user._id === this.state.feedbackFor){
                 feedbackForObj = {
                     id: user._id,
@@ -67,7 +72,7 @@ class ByManager extends Component {
             else {
                 return null;
             }
-        })
+        });
 
 
         const feedback = {
@@ -79,19 +84,19 @@ class ByManager extends Component {
     };
 
     render() {
-        const feedback = this.state.feedback;
+        const { feedback, feedbackFor} = this.state;
         const userSelect = <select
                                 onChange={this.onChange}
                                 value={this.state.feedbackFor}
                                 id="feedbackFor"
                                 className="form-control input-field"
                             >
-                                <option key="blank" id="blank" value=""></option>
+                                <option key="blank" id="blank" value=""></option> 
                                 {
-                                    this.props.users.map(user => {
+                                    this.props.managers.map(user => {
                                         return <option key={ user._id } value={ user._id }>{ user.name }</option> })
                                 }
-                            </select>;
+                           </select>;
         let feedbackShow;
         if(feedback.length > 0){
             feedbackShow = feedback.map(item => {
@@ -114,10 +119,8 @@ class ByManager extends Component {
                     </div>
                 });
         }
-        else {
-            feedbackShow = <div></div>
-         }
 
+        const submitEnabled = feedbackFor.length > 0;
 
         return (
             <div>
@@ -134,6 +137,8 @@ class ByManager extends Component {
                                 </div>
                                 <div className="col text-left">
                                     <label htmlFor="feedbackType">Feedback from date:
+                                    <br />
+                                    <sub>Date defaults to 1 week ago</sub>
                                     <input
                                         id="dateFrom"
                                         type="date"
@@ -144,8 +149,9 @@ class ByManager extends Component {
                                 </div>
                                 <div style={{ paddingLeft: "11.250px" }}>
                                     <button
-                                    type="submit"
-                                    className="btn btn waves-effect waves-light hoverable blue accent-3"
+                                        type="submit"
+                                        className="btn btn waves-effect waves-light hoverable blue accent-3"
+                                        disabled={!submitEnabled}
                                     >
                                     Search for Feedback
                                     </button>
@@ -166,7 +172,7 @@ class ByManager extends Component {
 
 ByManager.propTypes = {
     getManagers: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired,
+    managers: PropTypes.array.isRequired,
     getFeedbackByManager: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     feedback: PropTypes.object,
@@ -174,7 +180,7 @@ ByManager.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    users: state.users.users,
+    managers: state.managers.managers,
     auth: state.auth,
     feedback: state.feedback,
     errors: state.errors

@@ -14,14 +14,20 @@ class ForTRA extends Component {
         this.state = {
             feedbackFor: "",
             users: {},
-            dateFrom: Date.now,
+            dateFrom: Date(),
             feedback:[]
         };
     };
 
     componentWillMount() {
-        this.setState({users: this.props.getUsers()});
-        console.log(this.state)
+        const date = new Date();
+        date.setDate(date.getDate() - 7)
+        
+        this.setState({
+            users: this.props.getUsers(),
+            dateFrom: date,
+            feedback: []
+        });
     };
 
     componentWillReceiveProps(nextProps) {
@@ -77,7 +83,7 @@ class ForTRA extends Component {
     };
 
     render() {
-        const feedback = this.state.feedback;
+        const { feedback, feedbackFor } = this.state;
         const userSelect = <select
                                 onChange={this.onChange}
                                 value={this.state.feedbackFor}
@@ -111,10 +117,8 @@ class ForTRA extends Component {
                     </div>
                 });
         }
-        else {
-            feedbackShow = <div></div>
-         }
 
+        const submitEnabled = feedbackFor.length > 0;
 
         return (
             <div>
@@ -131,6 +135,8 @@ class ForTRA extends Component {
                                 </div>
                                 <div className="col text-left">
                                     <label htmlFor="feedbackType">Feedback from date:
+                                    <br />
+                                    <sub>Date defaults to 1 week ago</sub>
                                     <input
                                         id="dateFrom"
                                         type="date"
@@ -141,8 +147,9 @@ class ForTRA extends Component {
                                 </div>
                                 <div style={{ paddingLeft: "11.250px" }}>
                                     <button
-                                    type="submit"
-                                    className="btn btn waves-effect waves-light hoverable blue accent-3"
+                                        type="submit"
+                                        className="btn btn waves-effect waves-light hoverable blue accent-3"
+                                        disabled={!submitEnabled}
                                     >
                                     Search for Feedback
                                     </button>

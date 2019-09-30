@@ -28,7 +28,6 @@ export const getManagers = () => dispatch => {
     axios
         .get("/api/users/managerList")
         .then(res => {
-            console.log(res.data)
             dispatch(managerList(res.data));
         })
         .catch(err =>
@@ -49,7 +48,6 @@ export const userList = users => {
 
 // returns manager lists
 export const managerList = managers => {
-    console.log(managers)
     return {
         type: MANAGER_LIST,
         payload: managers
