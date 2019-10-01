@@ -3,6 +3,11 @@ import axios from "axios";
 import {
     FEEDBACK_LIST,
     FEEDBACK_COUNT,
+    FEEDBACK_TYPE_COUNT,
+    FEEDBACK_DELIVERED_COUNT,
+    FEEDBACK_SENTIMENT_COUNT,
+    FEEDBACK_SUBMITTED_BY_COUNT,
+    FEEDBACK_SUBMITTED_FOR_COUNT,
     GET_ERRORS
 } from "./types";
 
@@ -65,6 +70,36 @@ export const getFeedbackByManager = (manager) => dispatch => {
         );
 };
 
+// get feedback count by submitter
+export const getSubmittedByUserCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackSubmittedByCount")
+        .then(res => {
+            dispatch(feedbackSubmittedByCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
+// get feedback count by user
+export const getSubmittedForUserCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackSubmittedForCount")
+        .then(res => {
+            dispatch(feedbackSubmittedForCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
 // get feedback count
 export const getFeedbackCount = () => dispatch => {
     axios
@@ -80,6 +115,51 @@ export const getFeedbackCount = () => dispatch => {
         );
 };
 
+// get feedback type count
+export const getFeedbackTypeCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackTypeCount")
+        .then(res => {
+            dispatch(feedbackTypeCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
+
+// get feedback type count
+export const getDeliveredInPersonCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackDeliveredCount")
+        .then(res => {
+            dispatch(feedbackDeliveredCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
+// get feedback type count
+export const getSentimentCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackSentimentCount")
+        .then(res => {
+            dispatch(feedbackSentimentCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
 
 // set feedback for user
 export const setUserFeedback = feedback => {
@@ -98,10 +178,50 @@ export const setTeamFeedback = feedback => {
     };
 };
 
-// get feedback count
+// set feedback count
 export const feedbackCount = feedback => {
     return {
         type: FEEDBACK_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedbackType count
+export const feedbackTypeCount = feedback => {
+    return {
+        type: FEEDBACK_TYPE_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedback Delivered in person count
+export const feedbackDeliveredCount = feedback => {
+    return {
+        type: FEEDBACK_DELIVERED_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedback sentiment count
+export const feedbackSentimentCount = feedback => {
+    return {
+        type: FEEDBACK_SENTIMENT_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedback sentiment count
+export const feedbackSubmittedByCount = feedback => {
+    return {
+        type: FEEDBACK_SUBMITTED_BY_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedback sentiment count
+export const feedbackSubmittedForCount = feedback => {
+    return {
+        type: FEEDBACK_SUBMITTED_FOR_COUNT,
         payload: feedback
     }
 }

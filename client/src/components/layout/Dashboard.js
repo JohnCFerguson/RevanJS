@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 
 import Navbar from "./Navbar";
-import SubmittedFor from "./charts/SubmittedFor";
+import Submitted from "./charts/Submitted";
+import FeedbackType from "./charts/FeedbackType";
+import DeliveredInPerson from "./charts/DeliveredInPerson";
+import Sentiment from "./charts/Sentiment";
+import SubmittedByUser from "./charts/SubmittedByUser";
 
 class Dashboard extends Component {
     onLogoutClick = e => {
@@ -30,7 +34,23 @@ class Dashboard extends Component {
                         </div>
                     </div>
                     <div className="row">
-                    <SubmittedFor />
+                        <div className="col">
+                            <Submitted />
+                        </div>
+                        <div className="col">
+                            <FeedbackType />
+                        </div>
+                        <div className="col">
+                            <DeliveredInPerson />
+                        </div>
+                        <div className="col">
+                            <Sentiment />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <SubmittedByUser />
+                        </div>
                     </div>
                 </div>
             </div>

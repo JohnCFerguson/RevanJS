@@ -92,16 +92,16 @@ router.post("/feedbackListByManager", (req,res) => {
   });
 });
 
-// route GET api/feedback/feedbackCount
+// route GET api/feedback/feedbackSubmittedForCount
 // @desc get list of feedback based on auth'd users choice
 // @access Public
-router.get("/feedbackForCount", (req,res) => {
+router.get("/feedbackSubmittedForCount", (req,res) => {
 
 //Get count of feedback submitted by a user
   Feedback.aggregate([
     {
       $group: {
-        _id: "$feedbackFor",
+        _id: "$feedbackFor.name",
         total: {$sum: 1}
       }
     }
@@ -113,24 +113,108 @@ router.get("/feedbackForCount", (req,res) => {
   })
 })
 
+// route GET api/feedback/feedbackByCount
+// @desc get list of feedback based on auth'd users choice
+// @access Public
+router.get("/feedbackSubmittedByCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+    Feedback.aggregate([
+      {
+        $group: {
+          _id: "$deliveredBy.name",
+          total: {$sum: 1}
+        }
+      }
+    ]).then(feedback => {
+      if (!feedback) {
+        return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+      }
+      res.send(feedback);
+    })
+  })
+
+// route GET api/feedback/feedbackTypeCount
+// @desc get count of feedback by feedback type
+// @access Public
+router.get("/feedbackTypeCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+  Feedback.aggregate([
+    {
+      $group: {
+        _id: "$feedbackType",
+        total: {$sum: 1}
+      }
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    res.send(feedback);
+  })
+})
+
+// route GET api/feedback/feedbackDeliveredCount
+// @desc get count of feedback by feedback type
+// @access Public
+router.get("/feedbackDeliveredCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+  Feedback.aggregate([
+    {
+      $group: {
+        _id: "$deliveredInPerson",
+        total: {$sum: 1}
+      }
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    res.send(feedback);
+  })
+})
+
+// route GET api/feedback/feedbackSentimentCount
+// @desc get count of feedback sentiment by feedback
+// @access Public
+router.get("/feedbackSentimentCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+  Feedback.aggregate([
+    {
+      $group: {
+        _id: "$sentiment",
+        total: {$sum: 1}
+      }
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    console.log(feedback)
+    res.send(feedback);
+  })
+})
+
 // route GET api/feedback/feedbackCount
 // @desc get count of all feedback
 // @access Public
 router.get("/feedbackCount", (req,res) => {
 
   //Get count of feedback submitted by a user
-    Feedback.aggregate([
-      {
-        $count: 'Total Feedback Submitted'
-      }
-    ]).then(feedback => {
-      if (!feedback) {
-        return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
-      }
-      console.log(feedback);
-      res.send(feedback);
-    })
+  Feedback.aggregate([
+    {
+      $count: 'Total Feedback Submitted'
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    res.send(feedback);
   })
+})
 
 
 module.exports = router;

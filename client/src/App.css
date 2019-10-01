@@ -47,3 +47,9 @@ nav ul li a.active {
 .form-check-label {
   margin-left: .75rem;
 }
+
+.container {
+  width: 100%;
+  max-width: none;
+  margin: auto, auto;
+}
