@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     required: true
   },
   manager: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   isManager:  {

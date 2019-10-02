@@ -5,7 +5,9 @@ import {
     FEEDBACK_TYPE_COUNT,
     FEEDBACK_DELIVERED_COUNT,
     FEEDBACK_SENTIMENT_COUNT,
-    FEEDBACK_SUBMITTED_BY_COUNT
+    FEEDBACK_SUBMITTED_BY_COUNT,
+    FEEDBACK_SUBMITTED_FOR_COUNT,
+    FEEDBACK_SUBMITTED_FOR_TEAM_COUNT
 } from "../actions/types";
 
 const initialState = {
@@ -14,6 +16,8 @@ const initialState = {
     deliveredInPerson: {},
     sentiment: {},
     submittedByUser: {},
+    submittedForUser: {},
+    submittedForTeam: {},
     loading: false
 };
 
@@ -53,6 +57,16 @@ export default function (state = initialState, action) {
             return{
                 ...state,
                 submittedByUser: action.payload
+            }
+        case FEEDBACK_SUBMITTED_FOR_COUNT:
+            return{
+                ...state,
+                submittedForUser: action.payload
+            }
+        case FEEDBACK_SUBMITTED_FOR_TEAM_COUNT:
+            return{
+                ...state,
+                submittedForTeam: action.payload
             }
         default:
             return state;

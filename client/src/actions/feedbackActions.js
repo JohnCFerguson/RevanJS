@@ -8,6 +8,7 @@ import {
     FEEDBACK_SENTIMENT_COUNT,
     FEEDBACK_SUBMITTED_BY_COUNT,
     FEEDBACK_SUBMITTED_FOR_COUNT,
+    FEEDBACK_SUBMITTED_FOR_TEAM_COUNT,
     GET_ERRORS
 } from "./types";
 
@@ -91,6 +92,21 @@ export const getSubmittedForUserCount = () => dispatch => {
         .get("/api/feedback/feedbackSubmittedForCount")
         .then(res => {
             dispatch(feedbackSubmittedForCount(res.data));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        );
+};
+
+// get feedback count by user
+export const getSubmittedForTeamCount = () => dispatch => {
+    axios
+        .get("/api/feedback/feedbackSubmittedForTeamCount")
+        .then(res => {
+            dispatch(feedbackSubmittedForTeamCount(res.data));
         })
         .catch(err =>
             dispatch({
@@ -222,6 +238,14 @@ export const feedbackSubmittedByCount = feedback => {
 export const feedbackSubmittedForCount = feedback => {
     return {
         type: FEEDBACK_SUBMITTED_FOR_COUNT,
+        payload: feedback
+    }
+}
+
+// set feedback sentiment count
+export const feedbackSubmittedForTeamCount = feedback => {
+    return {
+        type: FEEDBACK_SUBMITTED_FOR_TEAM_COUNT,
         payload: feedback
     }
 }

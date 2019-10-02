@@ -113,7 +113,7 @@ class FeedbackType extends Component {
     }
 
     render() {
-        const { width, height, arc, color, feedbackType, dataType } = this.state;
+        const { dataType } = this.state;
 
         return (
           <PieChart width={300} height={300}>

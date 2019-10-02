@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { getUsers } from "../../actions/userActions";
 import { submitFeedback } from "../../actions/feedbackActions";
 
-
 import Navbar from "./Navbar";
+
+const mongoose = require("mongoose");
 
 class Submit extends Component {
     constructor(props) {
@@ -51,9 +52,9 @@ class Submit extends Component {
         this.props.users.forEach(user => {
             if(user._id === this.state.feedbackFor){
                 feedbackForObj = {
-                    id: user._id,
+                    id: mongoose.Types.ObjectId(user._id),
                     name: user.name,
-                    manager: user.manager
+                    manager: mongoose.Types.ObjectId(user.manager)
                 };
             }
             else {
@@ -62,9 +63,9 @@ class Submit extends Component {
         })
 
         const deliveredByObj = {
-            id: this.props.auth.user.id,
+            id: mongoose.Types.ObjectId(this.props.auth.user.id),
             name: this.props.auth.user.name,
-            manager: this.props.auth.user.manager
+            manager: mongoose.Types.ObjectId(this.props.auth.user.manager)
         }
 
         const newFeedback = {

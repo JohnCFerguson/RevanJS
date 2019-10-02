@@ -7,8 +7,19 @@ const FeedbackSchema = new Schema({
         default: Date.now
     },
     feedbackFor: {
-        type: Object,
-        required: true
+        id: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        manager: {
+            type: Schema.Types.ObjectId,
+            required: false
+        }
+
     },
     feedbackType: {
         type: String,
@@ -31,8 +42,18 @@ const FeedbackSchema = new Schema({
         required: true
     },
     deliveredBy: {
-        type: Object,
-        required: true
+        id: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        manager: {
+            type: Schema.Types.ObjectId,
+            required: false
+        }
     }
 });
 module.exports = Feedback = mongoose.model("feedback", FeedbackSchema, "feedback");

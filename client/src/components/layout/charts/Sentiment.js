@@ -117,7 +117,7 @@ class Sentiment extends Component {
     }
 
     render() {
-        const { sentiment, sentimentData } = this.state;
+        const { sentimentData } = this.state;
 
         return (
           <PieChart width={300} height={300}>

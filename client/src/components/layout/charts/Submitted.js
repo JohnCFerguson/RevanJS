@@ -115,7 +115,7 @@ class Submitted extends Component {
     }
 
     render() {
-        const { width, height, arc, color, feedback, data } = this.state;
+        const { feedback, data } = this.state;
         const key = Object.keys(feedback);
         const value = Object.values(feedback);
 

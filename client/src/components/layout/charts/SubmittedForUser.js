@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getSubmittedByUserCount } from "../../../actions/feedbackActions";
+import { getSubmittedForUserCount } from "../../../actions/feedbackActions";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
-class SubmittedByUser extends Component {
+class SubmittedForUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            submittedByUser: {},
-            submittedByUserData: [],
+            submittedForUser: {},
+            submittedForUserData: [],
             errors: {}
         };
     }
 
     componentWillMount() {
-    this.props.getSubmittedByUserCount();
+    this.props.getSubmittedForUserCount();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,34 +25,34 @@ class SubmittedByUser extends Component {
         errors: nextProps.errors
         });
     }
-    if (nextProps.submittedByUser !== this.props.submittedByUser && nextProps.submittedByUser !== undefined) {
+    if (nextProps.submittedForUser !== this.props.submittedForUser && nextProps.submittedForUser !== undefined) {
         this.setState({
-            submittedByUser: nextProps.submittedByUser.submittedByUser
+            submittedForUser: nextProps.submittedForUser.submittedForUser
         }, () => {
         console.log('state ', this.state)
         let data = [];
-        const submittedByUserList = Object.entries(this.state.submittedByUser)
-        for(const [key, value] of submittedByUserList) {
+        const submittedForUserList = Object.entries(this.state.submittedForUser)
+        for(const [key, value] of submittedForUserList) {
               console.log(value['_id'], value['total'])
             data.push({name: value['_id'], value: value['total']})
         }
         console.log(data)
         this.setState({
-            submittedByUserData: data
+            submittedForUserData: data
         });
         });
     }
     }
 
     render() {
-        const { submittedByUserData } = this.state;
+        const { submittedForUserData } = this.state;
 
         return (
             <BarChart
                 width={300}
                 height={600}
                 layout="vertical"
-                data={submittedByUserData}
+                data={submittedForUserData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
                 <CartesianGrid strokeDasharray="5 5" />
@@ -60,23 +60,23 @@ class SubmittedByUser extends Component {
                 <YAxis type="category" dataKey="name" />
                 <Tooltip />
                 <Legend />
-                <Bar name="Feedback Submitted by User" dataKey="value" fill="#8884d8" />
+                <Bar name="Feedback Submitted for User" dataKey="value" fill="#8884d8" />
             </BarChart>
         );
     }
 }
 
-SubmittedByUser.propTypes = {
-getSubmittedByUserCount: PropTypes.func.isRequired,
-submittedByUser: PropTypes.object
+SubmittedForUser.propTypes = {
+getSubmittedForUserCount: PropTypes.func.isRequired,
+submittedForUser: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-submittedByUser: state.feedback,
+submittedForUser: state.feedback,
 errors: state.errors
 });
 
 export default connect(
 mapStateToProps,
-{ getSubmittedByUserCount }
-)(SubmittedByUser);
+{ getSubmittedForUserCount }
+)(SubmittedForUser);

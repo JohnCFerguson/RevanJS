@@ -117,7 +117,7 @@ class DeliveredInPerson extends Component {
     }
 
     render() {
-        const { width, height, arc, color, deliveredInPerson, dataDelivered } = this.state;
+        const { dataDelivered } = this.state;
 
         return (
           <PieChart width={300} height={300}>

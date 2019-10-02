@@ -53,3 +53,8 @@ nav ul li a.active {
   max-width: none;
   margin: auto, auto;
 }
+
+.col.dashboard {
+  display: flex;
+  justify-content: center;
+}

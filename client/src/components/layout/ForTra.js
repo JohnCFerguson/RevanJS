@@ -22,7 +22,7 @@ class ForTRA extends Component {
     componentWillMount() {
         const date = new Date();
         date.setDate(date.getDate() - 7)
-        
+
         this.setState({
             users: this.props.getUsers(),
             dateFrom: date,

@@ -9,6 +9,8 @@ import FeedbackType from "./charts/FeedbackType";
 import DeliveredInPerson from "./charts/DeliveredInPerson";
 import Sentiment from "./charts/Sentiment";
 import SubmittedByUser from "./charts/SubmittedByUser";
+import SubmittedForUser from "./charts/SubmittedForUser";
+import SubmittedForTeam from "./charts/SubmittedForTeam";
 
 class Dashboard extends Component {
     onLogoutClick = e => {
@@ -33,23 +35,29 @@ class Dashboard extends Component {
                             </h4>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col">
+                    <div className="row d-flex">
+                        <div className="col dashboard">
                             <Submitted />
                         </div>
-                        <div className="col">
+                        <div className="col dashboard">
                             <FeedbackType />
                         </div>
-                        <div className="col">
+                        <div className="col dashboard">
                             <DeliveredInPerson />
                         </div>
-                        <div className="col">
+                        <div className="col dashboard">
                             <Sentiment />
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col">
+                        <div className="col dashboard">
+                            <SubmittedForUser />
+                        </div>
+                        <div className="col dashboard">
                             <SubmittedByUser />
+                        </div>
+                        <div className="col dashboard">
+                            <SubmittedForTeam />
                         </div>
                     </div>
                 </div>

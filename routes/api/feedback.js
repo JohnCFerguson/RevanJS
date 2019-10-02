@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const keys = require("../../config/config");
-
+const mongoose = require("mongoose");
 // Load input validation
 const validateFeedbackInput = require("../../validation/feedback");
 
 // Load Feedback model
-const Feedback = require("../../models/feedback");
+const Feedback = require("../../models/Feedback");
+const Users = require("../../models/User");
 
 // @route POST api/feedback/submit
 // @desc submit feedback
 // @access Public
 router.post("/submit", (req, res) => {
+
+    console.log(typeof(req.body.feedbackFor.manager))
+
     // Form validation
     const { errors, isValid } = validateFeedbackInput(req.body);
     // Check validation
@@ -119,20 +120,56 @@ router.get("/feedbackSubmittedForCount", (req,res) => {
 router.get("/feedbackSubmittedByCount", (req,res) => {
 
   //Get count of feedback submitted by a user
-    Feedback.aggregate([
-      {
-        $group: {
-          _id: "$deliveredBy.name",
-          total: {$sum: 1}
+  Feedback.aggregate([
+    {
+      $group: {
+        _id: "$deliveredBy.name",
+        total: {$sum: 1}
+      }
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    res.send(feedback);
+  })
+})
+
+// route GET api/feedback/feedbackSubmittedForTeamCount
+// @desc get list of feedback based on auth'd users choice
+// @access Public
+router.get("/feedbackSubmittedForTeamCount", (req,res) => {
+
+  //Get count of feedback submitted by a user
+  Users.aggregate([
+    {
+      $project: {
+        "_id": {
+          "$toString": "$_id"
+        },
+        "name": {
+          "$toString": "$name"
         }
       }
-    ]).then(feedback => {
-      if (!feedback) {
-        return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    },
+    {
+      $lookup: {
+        from: "feedback",
+        localField: "_id",
+        foreignField: "feedbackFor.manager",
+        as: "feedbackForTeam"
       }
-      res.send(feedback);
-    })
+    }
+  ]).then(feedback => {
+    if (!feedback) {
+      return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
+    }
+    for (i in feedback) {
+      feedback[i]['total'] = feedback[i]['feedbackForTeam'].length
+    }
+    res.send(feedback);
   })
+})
 
 // route GET api/feedback/feedbackTypeCount
 // @desc get count of feedback by feedback type
@@ -193,7 +230,6 @@ router.get("/feedbackSentimentCount", (req,res) => {
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
-    console.log(feedback)
     res.send(feedback);
   })
 })
