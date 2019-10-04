@@ -9,7 +9,7 @@ import FeedbackType from "./charts/FeedbackType";
 import DeliveredInPerson from "./charts/DeliveredInPerson";
 import Sentiment from "./charts/Sentiment";
 import SubmittedForUser from "./charts/SubmittedForUser";
-import SubmittedByUser from "./charts/SubmittedByUser";
+import SubmittedByUser from "./SubmittedByUser";
 import SubmittedForTeam from "./charts/SubmittedForTeam";
 
 class Dashboard extends Component {
