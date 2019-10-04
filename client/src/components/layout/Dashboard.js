@@ -8,9 +8,9 @@ import Submitted from "./charts/Submitted";
 import FeedbackType from "./charts/FeedbackType";
 import DeliveredInPerson from "./charts/DeliveredInPerson";
 import Sentiment from "./charts/Sentiment";
-import SubmittedByUser from "./charts/SubmittedByUser";
 import SubmittedForUser from "./charts/SubmittedForUser";
 import SubmittedForTeam from "./charts/SubmittedForTeam";
+import SubmittedByUser from "./charts/SubmittedByUser"
 
 class Dashboard extends Component {
     onLogoutClick = e => {
