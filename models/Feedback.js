@@ -8,7 +8,7 @@ const FeedbackSchema = new Schema({
     },
     feedbackFor: {
         id: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: true
         },
         name: {
@@ -16,7 +16,7 @@ const FeedbackSchema = new Schema({
             required: true
         },
         manager: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: false
         }
 
@@ -43,7 +43,7 @@ const FeedbackSchema = new Schema({
     },
     deliveredBy: {
         id: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: true
         },
         name: {
@@ -51,7 +51,7 @@ const FeedbackSchema = new Schema({
             required: true
         },
         manager: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: false
         }
     }

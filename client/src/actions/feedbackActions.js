@@ -30,6 +30,7 @@ export const getFeedbackForTra = (feedbackFor) => dispatch => {
     axios
         .post("/api/feedback/feedbackListFor", feedbackFor)
         .then(res => {
+            console.log(res.data)
             dispatch(setUserFeedback(res.data));
         })
         .catch(err =>

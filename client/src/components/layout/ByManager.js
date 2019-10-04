@@ -44,10 +44,11 @@ class ByManager extends Component {
         }
     };
 
-    componentDidUpdate() {
+    // need to update this component to user componentDidUpdate instead of componentWillReceiveProps()
+    // componentDidUpdate() {
         // console.log('State has changed...');
         // console.log(this.state);
-    }
+    // }
 
     onChange = e => {
         if(document.getElementById('blank')){

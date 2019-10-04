@@ -87,7 +87,7 @@ class Register extends Component {
                                 id="manager"
                                 className="form-control input-field"
                             >
-                                <option key="blank" id="blank" value=""></option> 
+                                <option key="blank" id="blank" value=""></option>
                                 {
                                     this.props.managers.map(user => {
                                         return <option key={ user._id } value={ user._id }>{ user.name }</option> })
@@ -114,6 +114,7 @@ class Register extends Component {
                                     value={this.state.name}
                                     error={errors.name}
                                     id="name"
+                                    name="name"
                                     type="text"
                                     className={classnames("", {
                                         invalid: errors.name
@@ -128,6 +129,7 @@ class Register extends Component {
                                     value={this.state.email}
                                     error={errors.email}
                                     id="email"
+                                    name="email"
                                     type="email"
                                     className={classnames("", {
                                         invalid: errors.email
@@ -158,6 +160,7 @@ class Register extends Component {
                                     value={this.state.password}
                                     error={errors.password}
                                     id="password"
+                                    name="password"
                                     type="password"
                                     className={classnames("", {
                                         invalid: errors.password
@@ -172,6 +175,7 @@ class Register extends Component {
                                     value={this.state.password2}
                                     error={errors.password2}
                                     id="password2"
+                                    name="password2"
                                     type="password"
                                     className={classnames("", {
                                         invalid: errors.password2

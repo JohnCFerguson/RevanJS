@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
-import Login from './Login';
-import { Provider } from "react-redux";
-import sinon from 'sinon';
+import { shallow } from 'enzyme';
+import Login from '../auth/Login';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -51,7 +49,7 @@ describe('Testing Login component with Enzyme' , () => {
     it('checks that onSubmit is called', () => {
         const preventDefault = jest.fn();
         const loginUser = jest.fn();
-        
+
         const wrapper = shallow(<Login store={store} loginUser={loginUser} />);
         const login = wrapper.dive().dive();
 
@@ -62,7 +60,7 @@ describe('Testing Login component with Enzyme' , () => {
         login.find('input[name="password"]').simulate('change',
                   {target: {id: "password", value: 'test123'}});
         login.find('form').simulate('submit', { preventDefault: () => {
-            preventDefault()}, loginUser: () => {loginUser()} });
+            preventDefault()} });
         expect(preventDefault).toHaveBeenCalled()
     });
 });

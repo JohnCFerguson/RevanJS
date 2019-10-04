@@ -46,12 +46,15 @@ router.post("/feedbackListFor", (req,res) => {
   const from = new Date(req.body.from);
   const now = new Date(Date.now());
 
+  console.log(feedbackFor)
+
   // Find feedback for user
   Feedback.find({ feedbackFor: feedbackFor, timestamp: { $gt: from } }).then(feedback => {
     // Check if user exists
     if (!feedback) {
       return res.status(404).json({ feedbacknotfound: "feedback not found for user" });
     }
+    console.log(feedback)
     res.send(feedback);
   });
 });

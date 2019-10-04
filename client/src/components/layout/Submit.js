@@ -52,9 +52,9 @@ class Submit extends Component {
         this.props.users.forEach(user => {
             if(user._id === this.state.feedbackFor){
                 feedbackForObj = {
-                    id: mongoose.Types.ObjectId(user._id),
+                    id: user._id,
                     name: user.name,
-                    manager: mongoose.Types.ObjectId(user.manager)
+                    manager: user.manager
                 };
             }
             else {
@@ -63,9 +63,9 @@ class Submit extends Component {
         })
 
         const deliveredByObj = {
-            id: mongoose.Types.ObjectId(this.props.auth.user.id),
+            id: this.props.auth.user.id,
             name: this.props.auth.user.name,
-            manager: mongoose.Types.ObjectId(this.props.auth.user.manager)
+            manager: this.props.auth.user.manager
         }
 
         const newFeedback = {

@@ -15,7 +15,8 @@ class ForTRA extends Component {
             feedbackFor: "",
             users: {},
             dateFrom: Date(),
-            feedback:[]
+            feedback:[],
+            errors: {}
         };
     };
 
@@ -43,6 +44,8 @@ class ForTRA extends Component {
         }
     };
 
+
+    // this needs to be implemented in place of componentWillReceiveProps()
     // componentDidUpdate() {
     //     console.log('State has changed...');
     //     console.log(this.state);
@@ -65,7 +68,8 @@ class ForTRA extends Component {
             if(user._id === this.state.feedbackFor){
                 feedbackForObj = {
                     id: user._id,
-                    name: user.name
+                    name: user.name,
+                    manager: user.manager
                 };
             }
             else {
@@ -73,6 +77,7 @@ class ForTRA extends Component {
             }
         })
 
+        console.log(feedbackForObj)
 
         const feedback = {
             feedbackFor: feedbackForObj,

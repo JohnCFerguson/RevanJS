@@ -37,7 +37,7 @@ class Login extends Component {
 
     onChange = e => {
         //console.log("id: " + e.target.id + " value: " +e.target.value);
-        this.setState({ [e.target.id]: e.target.value }, () => {console.log(this.state)});
+        this.setState({ [e.target.id]: e.target.value });
     };
     onSubmit = e => {
         e.preventDefault();
