@@ -2,6 +2,10 @@
   "name": "revanjs",
   "version": "1.0.0",
   "description": "Application used to track feedback submissions",
+  "engines": {
+    "node": "10.x",
+    "npm": "6.x"
+  },
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
